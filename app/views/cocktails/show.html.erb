@@ -1,2 +1,23 @@
 <h1>Cocktails#show</h1>
-<p>Find me in app/views/cocktails/show.html.erb</p>
+<%= @cocktail.name %>
+
+<% @doses.each do |d| %>
+  <%= d.description %>
+  <%= d.ingredient.name %>
+  <%= link_to "Delete", dose_path(d.id),
+      method: :delete,
+      data: { confirm: "Are you sure?" } %><br />
+<% end %>
+
+
+<%= @dose.errors.full_messages %>
+
+<%= simple_form_for [@cocktail, @dose] do |d| %>
+  <%= d.error_notification %>
+  <%= d.input :description %>
+  <%= d.input :ingredient_id,:collection => @ingredients,:include_blank => false %>
+  <%= d.button :submit %>
+<% end %>
+
+<br><br>
+<%= link_to 'back', cocktails_path %>
